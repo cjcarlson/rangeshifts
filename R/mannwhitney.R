@@ -1,17 +1,17 @@
-# Hello, world!
-#
-# This is an example function named 'hello'
-# which prints 'Hello, world!'.
-#
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
-# Some useful keyboard shortcuts for package authoring:
-#
-#   Build and Reload Package:  'Ctrl + Shift + B'
-#   Check Package:             'Ctrl + Shift + E'
-#   Test Package:              'Ctrl + Shift + T'
+
+#' @title Mann-Whitney resurvey test for range shifts
+#'
+#' @description
+#' Use before-and-after comparisons to test for range shifts. Takes the top n unique points from specified variable (elevation, latitude, etc.) and does an unpaired Mann-Whitney test. Returns absolute difference in means (not scaled to time period) and the p-value from the MW test.
+#'
+#' @param data A data frame containing columns "Year" and "Species" at a minimum as well as the response variable.
+#' @param resp A variable within the data that is being tracked, such as elevation, or latitude. (If latitude is used, just note to convert it back to km manually, it's not currently automatic in here.)
+#' @param pre.years An interval entered as "c(year1,year2)"
+#' @param post.years An interval entered as "c(year1,year2)"
+#' @param n.mw The number of unique points to be used in the Mann-Whitney comparison. It defauls to 10.
+#' 
+#' @details 
+#' @export
 
 
 mw.2period <- function(data, resp='elev', pre.years, post.years, n.mw=10) {
