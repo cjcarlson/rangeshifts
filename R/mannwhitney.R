@@ -10,8 +10,9 @@
 #' @param post.years An interval entered as "c(year1,year2)"
 #' @param n.mw The number of unique points to be used in the Mann-Whitney comparison. It defauls to 10.
 #' 
-#' @details 
+#' 
 #' @export
+#' 
 
 
 mw.2period <- function(data, resp='elev', pre.years, post.years, n.mw=10) {
