@@ -27,7 +27,7 @@ mw.2period <- function(dataset, resp='elev', pre.years, post.years, n.mw=10) {
     group_by(Species) %>% unique() %>% dplyr::top_n(n=n.mw,wt=resp) -> Post.top
 
   names <- unique(Pre.top$Species)
-  result1 <- dataset.frame(t(dataset.frame(lapply(names,function(nam){
+  result1 <- data.frame(t(data.frame(lapply(names,function(nam){
     Pre.top.i <- c(Pre.top[Pre.top$Species==nam,1])[[1]]
     Post.top.i <- c(Post.top[Post.top$Species==nam,1])[[1]]
     w <- wilcox.test(Pre.top.i,Post.top.i)
