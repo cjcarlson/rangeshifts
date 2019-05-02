@@ -4,12 +4,12 @@
 #'
 #'
 #' @name rangeshifts-package
-#' @aliases crangeshifts-package rangeshifts
+#' @aliases rangeshifts-package rangeshifts
 #' @docType package
 #' @author Colin Carlson (\email{cjc322@georgetown.edu})
 #'
 #' @import tidyverse
-#'
+#' @export
 #'
 #'
 NULL
