@@ -9,6 +9,9 @@
 #' @author Colin Carlson (\email{cjc322@georgetown.edu})
 #'
 #' @import tidyverse
+#' @import lme4
+#' @import lattice
+#' @importFrom gridExtra arrangeGrob
 #' @export
 #'
 #'

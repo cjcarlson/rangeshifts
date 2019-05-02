@@ -4,12 +4,12 @@
 \alias{mw.2period}
 \title{Mann-Whitney resurvey test for range shifts}
 \usage{
-mw.2period(data, resp = "elev", pre.years, post.years, n.mw = 10)
+mw.2period(dataset, resp = "elev", pre.years, post.years, n.mw = 10)
 }
 \arguments{
-\item{data}{A data frame containing columns "Year" and "Species" at a minimum as well as the response variable.}
+\item{dataset}{A dataset frame containing columns "Year" and "Species" at a minimum as well as the response variable.}
 
-\item{resp}{A variable within the data that is being tracked, such as elevation, or latitude. (If latitude is used, just note to convert it back to km manually, it's not currently automatic in here.)}
+\item{resp}{A variable within the dataset that is being tracked, such as elevation, or latitude. (If latitude is used, just note to convert it back to km manually, it's not currently automatic in here.)}
 
 \item{pre.years}{An interval entered as "c(year1,year2)"}
 
