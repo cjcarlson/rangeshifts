@@ -34,11 +34,13 @@ evreg <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
     spy.max <- coef(model1)[(n+1):(2*n)][order(coef(model1)[(n+1):(2*n)])]
     names(sp.max) <- gsub(':Year','',gsub('Species','',names(sp.max)))
     names(spy.max) <- gsub(':Year','',gsub('Species','',names(spy.max)))
-    
-    dotplot(rand.max)
+     
     d1 <- dotplot(sp.max, xlab='Species baseline')
     d2 <- dotplot(spy.max, xlab='Species change (units/year)')
     grid.arrange(d1, d2, ncol = 2)
+    
+    print(summary(model1))
+    return(model1)
     
   } else {
     
@@ -65,7 +67,7 @@ evreg <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
   d2 <- dotplot(spy.max, xlab='Species change (units/year)')
   grid.arrange(d1, d2, ncol = 2)
   
-  return(model2)
-  detach()
+  print(summary(model2))
+  suppressMessages(return(model2))
   }
 }

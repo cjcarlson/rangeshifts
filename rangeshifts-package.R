@@ -11,7 +11,7 @@
 #' @import tidyverse
 #' @import lme4
 #' @import lattice
-#' @importFrom gridExtra arrangeGrob
+#' @importFrom gridExtra grid.arrange
 #' @export
 #'
 #'
