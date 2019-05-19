@@ -42,6 +42,10 @@ evreg <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
     print(summary(model1))
     return(model1)
     
+    e <- summary(model1)
+    e2 <- e$coefficients[grep('Year',rownames(e$coefficients)),]
+    e2 <- e2[,c(1,4)]
+    
   } else {
     
   small.max <- plyr::ddply(dataset, c("Species",'Year',byRegion), summarise,
@@ -53,16 +57,14 @@ evreg <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
   
   # compare the two models
   
-  anova(model2,l1)
-  
-  rand.max <- ranef(model2)
+  if(!(byRegion==NULL)){rand.max <- ranef(model2)}
   n <- length(fixef(model2))/2
   sp.max <- fixef(model2)[1:n][order(fixef(model2)[1:n])]
   spy.max <- fixef(model2)[(n+1):(2*n)][order(fixef(model2)[(n+1):(2*n)])]
   names(sp.max) <- gsub(':Year','',gsub('Species','',names(sp.max)))
   names(spy.max) <- gsub(':Year','',gsub('Species','',names(spy.max)))
   
-  dotplot(rand.max)
+  if(!(byRegion==NULL)){dotplot(rand.max)}
   d1 <- dotplot(sp.max, xlab='Species baseline')
   d2 <- dotplot(spy.max, xlab='Species change (units/year)')
   grid.arrange(d1, d2, ncol = 2)
