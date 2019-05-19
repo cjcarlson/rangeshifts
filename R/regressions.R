@@ -16,9 +16,14 @@
 #' 
 
 
+# TO DO: ADD TRAILING EDGE USING NEGATIVE NUMBER IN TOP_N
+
 evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
-                  byRegion=NULL) {
+                  byRegion=NULL, south=FALSE, latConv=FALSE) {
   
+  if(south==TRUE) {
+    dataset$Lat <- dataset$Lat * -1
+  }
   colnames(dataset)[which(colnames(dataset)==resp)] <- 'resp'
   dataset$Year <- dataset$Year-min(dataset$Year)
   
