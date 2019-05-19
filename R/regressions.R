@@ -40,11 +40,14 @@ evreg <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
     grid.arrange(d1, d2, ncol = 2)
     
     print(summary(model1))
-    return(model1)
+    #return(model1)
     
     e <- summary(model1)
     e2 <- e$coefficients[grep('Year',rownames(e$coefficients)),]
     e2 <- e2[,c(1,4)]
+    rownames(e2) <- gsub(':Year','',gsub('Species','',rownames(e2)))
+    
+    return(list(model1,e2))
     
   } else {
     
@@ -70,6 +73,13 @@ evreg <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
   grid.arrange(d1, d2, ncol = 2)
   
   print(summary(model2))
-  suppressMessages(return(model2))
+  #suppressMessages(return(model2))
+  
+  e <- summary(model2)
+  e2 <- e$coefficients[grep('Year',rownames(e$coefficients)),]
+  e2 <- e2[,c(1,4)]
+  rownames(e2) <- gsub(':Year','',gsub('Species','',rownames(e2)))
+  
+  return(list(model2,e2))
   }
 }
