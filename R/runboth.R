@@ -17,7 +17,7 @@
 
 
 run.all <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
-                    byRegion=NULL) {
+                    byRegion=NULL, latConv=FALSE) {
   
   tbl1 <- data.frame(evreg(dataset, resp, n.pts, byRegion=NULL)[[2]])
   tbl2 <- mw.2period(dataset, resp, 
@@ -31,5 +31,9 @@ run.all <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
   tbl.all[,c(2,4)] <- round(tbl.all[,c(2,4)],2)
   tbl.all[,c(3,5)] <- round(tbl.all[,c(3,5)],3)
   colnames(tbl.all) <- c('Species','MWBeta','P','RegBeta','P')
+  
+  if(latConv==TRUE) {
+    tbl.all[,c(2,4)] <- tbl.all[,c(2,4)]*111.2
+  }
   return(tbl.all)
 }

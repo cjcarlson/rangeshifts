@@ -16,7 +16,7 @@
 #' 
 
 
-evreg <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
+evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
                   byRegion=NULL) {
   
   colnames(dataset)[which(colnames(dataset)==resp)] <- 'resp'
@@ -24,10 +24,14 @@ evreg <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
   
   if(is.null(byRegion)) {
     
-    small.max <- plyr::ddply(dataset, c("Species",'Year'), summarise,
-                             max.resp=max(resp))
+    #small.max <- plyr::ddply(dataset, c("Species",'Year'), summarise,
+    #                         max.resp=max(resp))
     
-    model1 <- lm(max.resp ~ 0 + Species+Species:Year, data=small.max)
+    small.max <- dataset %>% as_tibble() %>% group_by(Species,Year) %>% 
+                  unique() %>% dplyr::top_n(n=n.pts,wt=resp)
+    small.max <- small.max[,c('Species','Year','resp')]
+    
+    model1 <- lm(resp ~ 0 + Species+Species:Year, data=small.max)
     
     n <- length(coef(model1))/2
     sp.max <- coef(model1)[1:n][order(coef(model1)[1:n])]
@@ -51,11 +55,12 @@ evreg <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
     
   } else {
     
-  small.max <- plyr::ddply(dataset, c("Species",'Year',byRegion), summarise,
-                        max.resp=max(resp))
+    colnames(dataset)[colnames(dataset)==byRegion] <- 'Region'
+    small.max <- dataset %>% as_tibble() %>% group_by(Species,Year,Region) %>% 
+      unique() %>% dplyr::top_n(n=n.pts,wt=resp)
+    small.max <- small.max[,c('Species','Year','Region','resp')]
   
-  model2 <- lmer(gsub('filler',byRegion,
-                  'max.resp ~ 0 + Species + Species:Year+(1|filler)'),
+  model2 <- lmer('resp ~ 0 + Species + Species:Year+(1|Region)',
                   data=small.max, REML=FALSE)
   
   # compare the two models
