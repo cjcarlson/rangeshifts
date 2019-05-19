@@ -57,14 +57,14 @@ evreg <- function(dataset, resp='elev', n.pts=10, OLE=FALSE,
   
   # compare the two models
   
-  if(!(byRegion==NULL)){rand.max <- ranef(model2)}
+  if(!(is.null(byRegion))){rand.max <- ranef(model2)}
   n <- length(fixef(model2))/2
   sp.max <- fixef(model2)[1:n][order(fixef(model2)[1:n])]
   spy.max <- fixef(model2)[(n+1):(2*n)][order(fixef(model2)[(n+1):(2*n)])]
   names(sp.max) <- gsub(':Year','',gsub('Species','',names(sp.max)))
   names(spy.max) <- gsub(':Year','',gsub('Species','',names(spy.max)))
   
-  if(!(byRegion==NULL)){dotplot(rand.max)}
+  if(!(is.null(byRegion))){dotplot(rand.max)}
   d1 <- dotplot(sp.max, xlab='Species baseline')
   d2 <- dotplot(spy.max, xlab='Species change (units/year)')
   grid.arrange(d1, d2, ncol = 2)
