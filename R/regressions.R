@@ -45,7 +45,15 @@ evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
     names(spy.max) <- gsub(':Year','',gsub('Species','',names(spy.max)))
      
     d1 <- dotplot(sp.max, xlab='Species baseline')
-    d2 <- dotplot(spy.max, xlab='Species change (units/year)')
+    
+    
+    if(latConv==TRUE){
+      spy.max <- spy.max*111.2
+      d2 <- dotplot(spy.max, xlab='Species change (kilometers/year)')
+    } else {
+      d2 <- dotplot(spy.max, xlab='Species change (units/year)')
+    }
+    
     grid.arrange(d1, d2, ncol = 2)
     
     print(summary(model1))
@@ -55,6 +63,10 @@ evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
     e2 <- e$coefficients[grep('Year',rownames(e$coefficients)),]
     e2 <- e2[,c(1,4)]
     rownames(e2) <- gsub(':Year','',gsub('Species','',rownames(e2)))
+    
+    if(latConv==TRUE){
+      e2[,1] <- e2[,1] * 111.2 
+    }
     
     return(list(model1,e2))
     
@@ -79,7 +91,13 @@ evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
   
   if(!(is.null(byRegion))){dotplot(rand.max)}
   d1 <- dotplot(sp.max, xlab='Species baseline')
-  d2 <- dotplot(spy.max, xlab='Species change (units/year)')
+  
+  if(latConv==TRUE){
+    spy.max <- spy.max*111.2
+    d2 <- dotplot(spy.max, xlab='Species change (kilometers/year)')
+  } else {
+    d2 <- dotplot(spy.max, xlab='Species change (units/year)')
+  }
   grid.arrange(d1, d2, ncol = 2)
   
   print(summary(model2))
@@ -89,6 +107,10 @@ evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
   e2 <- e$coefficients[grep('Year',rownames(e$coefficients)),]
   e2 <- e2[,c(1,4)]
   rownames(e2) <- gsub(':Year','',gsub('Species','',rownames(e2)))
+  
+  if(latConv==TRUE){
+   e2[,1] <- e2[,1] * 111.2 
+  }
   
   return(list(model2,e2))
   }
