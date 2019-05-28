@@ -32,13 +32,36 @@ mw.2period <- function(dataset, resp='elev', pre.years, post.years, n.mw=10) {
   result1 <- data.frame(t(data.frame(lapply(names,function(nam){
     Pre.top.i <- c(Pre.top[Pre.top$Species==nam,1])[[1]]
     Post.top.i <- c(Post.top[Post.top$Species==nam,1])[[1]]
-    w <- wilcox.test(Pre.top.i,Post.top.i)
-    c(mean(Post.top.i)-mean(Pre.top.i),w$p.value)}))))
+    if(length(Pre.top.i)==10) {
+      if(length(Post.top.i)==10) {
+        suppressWarnings(w <- wilcox.test(Pre.top.i,Post.top.i))
+        c(mean(Post.top.i)-mean(Pre.top.i),w$p.value)
+      } else c(NA,NA)
+    } else c(NA,NA)
+  }))))
+
+  if(nrow(na.omit(result1))==0){
+    return("No species with enough data")
+  } else {
+
   colnames(result1) <- c('Diff/year','P-value')
   rownames(result1) <- names
   result1$'Diff/year' <- result1$'Diff/year'/(mean(post.years)-mean(pre.years))
 
-  result1$sig <- sapply(result1$'P-value', function(x) {if(x<0.05) {'*'} else {''}})
+  if(length(rownames(result1[is.na(result1[,2]),]))>0){
+  print("Not enough data for")
+  print(rownames(result1[is.na(result1[,2]),]))
+  }
+
+  result1 <- na.omit(result1)
+  result1$sig <- sapply(result1$'P-value', function(x) {if(x<0.05) {'*'} else {'n.s.'}})
+
+  summ <- table(sign(result1$`Diff/year`),result1$sig)
+  rownames(summ) <- gsub('-1','-',rownames(summ))
+  rownames(summ) <- gsub('1','+',rownames(summ))
+  print(summ)
   return(result1)
   detach()
+  }
 }
+
