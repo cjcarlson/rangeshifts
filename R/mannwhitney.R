@@ -24,7 +24,7 @@ mw.2period <- function(dataset, resp='elev', pre.years, post.years, n.mw=10) {
   pre[,c('response','Species')] %>% as_tibble() %>%
     group_by(Species) %>% unique() %>% dplyr::top_n(n=n.mw,wt=response) -> Pre.top
 
-  colnames(post)[colnames(post)==post] <- 'response'
+  colnames(post)[colnames(post)==resp] <- 'response'
   post[,c('response','Species')] %>% as_tibble() %>%
     group_by(Species) %>% unique() %>% dplyr::top_n(n=n.mw,wt=response) -> Post.top
 
