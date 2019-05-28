@@ -15,7 +15,7 @@ mw.2period(dataset, resp = "elev", pre.years, post.years, n.mw = 10)
 
 \item{post.years}{An interval entered as "c(year1,year2)"}
 
-\item{n.mw}{The number of unique points to be used in the Mann-Whitney comparison. It defauls to 10.}
+\item{n.mw}{The number of unique points to be used in the Mann-Whitney comparison. It defauls to 10. Remember that if you use negative you can do southern or lower elevations easy}
 }
 \description{
 Use before-and-after comparisons to test for range shifts. Takes the top n unique points from specified variable (elevation, latitude, etc.) and does an unpaired Mann-Whitney test. Returns absolute difference in means (not scaled to time period) and the p-value from the MW test.

@@ -8,9 +8,8 @@ Description: This package streamlines the process of tracking range shifts based
 License: CC0
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.1
 Depends: tidyverse,
     lme4,
     lattice,
     gridExtra
-
