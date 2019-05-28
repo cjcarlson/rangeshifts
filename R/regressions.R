@@ -11,6 +11,7 @@
 #' @param byRegion The column to use as a random spatial effect to handle spatial heterogeneity (multiple gradients)
 #'
 #' @import lme4
+#' @import lmerTest
 #'
 #' @export
 #'
@@ -78,7 +79,7 @@ evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
       unique() %>% dplyr::top_n(n=n.pts,wt=resp)
     small.max <- small.max[,c('Species','Year','Region','resp')]
 
-  model2 <- lmer('resp ~ 0 + Species + Species:Year+(1|Region)',
+  model2 <- lmerTest::lmer('resp ~ 0 + Species + Species:Year+(1|Region)',
                   data=small.max, REML=FALSE)
 
   # compare the two models
@@ -106,7 +107,7 @@ evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
 
   e <- summary(model2)
   e2 <- e$coefficients[grep('Year',rownames(e$coefficients)),]
-  e2 <- e2[,c(1,4)]
+  e2 <- e2[,c(1,5)]
   rownames(e2) <- gsub(':Year','',gsub('Species','',rownames(e2)))
 
   if(latConv==TRUE){
