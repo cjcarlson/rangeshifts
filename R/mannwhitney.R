@@ -8,11 +8,11 @@
 #' @param resp A variable within the dataset that is being tracked, such as elevation, or latitude. (If latitude is used, just note to convert it back to km manually, it's not currently automatic in here.)
 #' @param pre.years An interval entered as "c(year1,year2)"
 #' @param post.years An interval entered as "c(year1,year2)"
-#' @param n.mw The number of unique points to be used in the Mann-Whitney comparison. It defauls to 10.
-#' 
-#' 
+#' @param n.mw The number of unique points to be used in the Mann-Whitney comparison. It defauls to 10. Remember that if you use negative you can do southern or lower elevations easy
+#'
+#'
 #' @export
-#' 
+#'
 
 
 mw.2period <- function(dataset, resp='elev', pre.years, post.years, n.mw=10) {
@@ -20,11 +20,13 @@ mw.2period <- function(dataset, resp='elev', pre.years, post.years, n.mw=10) {
   pre <- dataset[ pre.years[1] <= dataset$Year & pre.years[2] >= dataset$Year, ]
   post <- dataset[ post.years[1] <= dataset$Year & post.years[2] >= dataset$Year, ]
 
-  pre[,c(resp,'Species')] %>% as_tibble() %>%
-    group_by(Species) %>% unique() %>% dplyr::top_n(n=n.mw,wt=resp) -> Pre.top
+  colnames(pre)[colnames(pre)==resp] <- 'response'
+  pre[,c('response','Species')] %>% as_tibble() %>%
+    group_by(Species) %>% unique() %>% dplyr::top_n(n=n.mw,wt=response) -> Pre.top
 
-  post[,c(resp,'Species')] %>% as_tibble() %>%
-    group_by(Species) %>% unique() %>% dplyr::top_n(n=n.mw,wt=resp) -> Post.top
+  colnames(post)[colnames(post)==post] <- 'response'
+  post[,c('response','Species')] %>% as_tibble() %>%
+    group_by(Species) %>% unique() %>% dplyr::top_n(n=n.mw,wt=response) -> Post.top
 
   names <- unique(Pre.top$Species)
   result1 <- data.frame(t(data.frame(lapply(names,function(nam){
