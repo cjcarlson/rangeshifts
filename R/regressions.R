@@ -20,7 +20,8 @@
 # TO DO: ADD TRAILING EDGE USING NEGATIVE NUMBER IN TOP_N
 
 evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
-                  byRegion=NULL, south=FALSE, latConv=FALSE) {
+                  byRegion=NULL, south=FALSE, latConv=FALSE,
+                  units='units') {
 
   if(south==TRUE) {
     dataset$Lat <- dataset$Lat * -1
@@ -53,7 +54,7 @@ evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
       spy.max <- spy.max*111.2
       d2 <- dotplot(spy.max, xlab='Species change (kilometers/year)')
     } else {
-      d2 <- dotplot(spy.max, xlab='Species change (units/year)')
+      d2 <- dotplot(spy.max, xlab=paste('Species change (','/year)',sep=units))
     }
 
     grid.arrange(d1, d2, ncol = 2)
@@ -98,7 +99,7 @@ evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
     spy.max <- spy.max*111.2
     d2 <- dotplot(spy.max, xlab='Species change (kilometers/year)')
   } else {
-    d2 <- dotplot(spy.max, xlab='Species change (units/year)')
+    d2 <- dotplot(spy.max, xlab=paste('Species change (','/year)',sep=units))
   }
   grid.arrange(d1, d2, ncol = 2)
 
