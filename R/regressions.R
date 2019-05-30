@@ -12,6 +12,7 @@
 #'
 #' @import lme4
 #' @import lmerTest
+#' @import MuMIn
 #'
 #' @export
 #'
@@ -82,7 +83,7 @@ evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
 
   model2 <- lmerTest::lmer('resp ~ 0 + Species + Species:Year+(1|Region)',
                   data=small.max, REML=FALSE)
-
+  print(MuMIn::r.squaredGLMM(model2))
   # compare the two models
 
   if(!(is.null(byRegion))){rand.max <- ranef(model2)}
