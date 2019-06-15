@@ -25,7 +25,7 @@ evreg <- function(dataset, resp='elev', n.pts=1, OLE=FALSE,
                   units='units') {
 
   if(south==TRUE) {
-    dataset$Lat <- dataset$Lat * -1
+    dataset[,resp] <- dataset[,resp] * -1
     print('Remember you turned on the latitude-reverser. + intercepts are actually -')
   }
   colnames(dataset)[which(colnames(dataset)==resp)] <- 'resp'
